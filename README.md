@@ -1,4 +1,4 @@
-# ShriRam Clinic — Editorial Website
+# ShriRam Clinic
 
 An Awwwards-calibre marketing site for **ShriRam Clinic**, a general-physician
 practice in Alandi, Pune. Editorial, calm and handcrafted — built to earn trust
