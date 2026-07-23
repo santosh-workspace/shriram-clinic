@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { testimonials, reviews } from '@/lib/site';
+import { reviews } from '@/lib/site';
+import { useContent } from '@/components/providers/LanguageProvider';
 
 /** Google's four-colour "G" mark. */
 function GoogleG({ size = 22 }: { size?: number }) {
@@ -30,7 +31,7 @@ function Stars({ size = 16 }: { size?: number }) {
 }
 
 /** Compact Google-reviews trust badge. */
-function GoogleBadge() {
+function GoogleBadge({ reviewsOn }: { reviewsOn: string }) {
   return (
     <a
       href={reviews.url}
@@ -46,7 +47,7 @@ function GoogleBadge() {
           <Stars />
         </span>
         <span className="mt-1 text-caption text-muted">
-          {reviews.count} reviews on <span className="font-medium text-ink">Google</span>
+          {reviews.count} {reviewsOn} <span className="font-medium text-ink">Google</span>
         </span>
       </span>
     </a>
@@ -54,6 +55,9 @@ function GoogleBadge() {
 }
 
 export function Testimonials() {
+  const c = useContent();
+  const rb = c.reviewsBlock;
+  const testimonials = rb.items;
   const root = useRef<HTMLElement>(null);
   const [i, setI] = useState(0);
   const [reduce, setReduce] = useState(false);
@@ -88,11 +92,11 @@ export function Testimonials() {
       <div>
         <div className="mb-5 inline-flex items-center gap-2">
           <GoogleG size={18} />
-          <span className="eyebrow !tracking-[0.2em]">Verified Google reviews</span>
+          <span className="eyebrow !tracking-[0.2em]">{rb.eyebrow}</span>
         </div>
-        <h2 className="max-w-[16ch] font-display text-display-md text-ink">In their words</h2>
+        <h2 className="max-w-[16ch] font-display text-display-md text-ink">{rb.heading}</h2>
       </div>
-      <GoogleBadge />
+      <GoogleBadge reviewsOn={rb.reviewsOn} />
     </div>
   );
 
@@ -141,7 +145,7 @@ export function Testimonials() {
                 <span className="text-ink">{t.name}</span>
                 <span>· {t.detail}</span>
                 <span className="ml-1 inline-flex items-center gap-1.5 text-caption">
-                  <GoogleG size={14} /> Posted on Google
+                  <GoogleG size={14} /> {rb.postedOn}
                 </span>
               </footer>
             </blockquote>

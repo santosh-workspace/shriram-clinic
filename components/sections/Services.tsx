@@ -3,10 +3,12 @@
 import { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { services } from '@/lib/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
 import { EditorialImage } from '@/components/ui/EditorialImage';
+import { useContent } from '@/components/providers/LanguageProvider';
+
+type ServiceItem = { n: string; title: string; body: string };
 
 // real photography for the cursor-follow preview
 const previewImgs = [
@@ -22,7 +24,7 @@ function ServiceRow({
   onEnter,
   onLeave,
 }: {
-  s: (typeof services)[number];
+  s: ServiceItem;
   i: number;
   onEnter: (i: number) => void;
   onLeave: () => void;
@@ -90,6 +92,8 @@ function ServiceRow({
 }
 
 export function Services() {
+  const c = useContent();
+  const services = c.services.items;
   const root = useRef<HTMLElement>(null);
   const preview = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -135,17 +139,14 @@ export function Services() {
         <div className="mb-16 flex flex-col justify-between gap-8 md:mb-24 md:flex-row md:items-end">
           <div>
             <Reveal>
-              <p className="eyebrow mb-6">What we care for</p>
+              <p className="eyebrow mb-6">{c.services.eyebrow}</p>
             </Reveal>
             <RevealText as="h2" className="max-w-[14ch] font-display text-display-sm text-ink">
-              Everyday medicine, given the attention it deserves.
+              {c.services.heading}
             </RevealText>
           </div>
           <Reveal delay={0.1}>
-            <p className="max-w-xs text-muted">
-              From a sudden fever to the steady work of managing a chronic condition —
-              one clinic, one relationship, for the whole family.
-            </p>
+            <p className="max-w-xs text-muted">{c.services.intro}</p>
           </Reveal>
         </div>
 

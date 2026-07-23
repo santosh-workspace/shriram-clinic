@@ -2,9 +2,9 @@
 
 import { useState, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
-import { faqs } from '@/lib/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
+import { useContent } from '@/components/providers/LanguageProvider';
 
 function Item({ q, a, i }: { q: string; a: string; i: number }) {
   const [open, setOpen] = useState(false);
@@ -63,19 +63,20 @@ function Item({ q, a, i }: { q: string; a: string; i: number }) {
 }
 
 export function Faq() {
+  const c = useContent();
   return (
     <section id="faq" className="relative py-28 md:py-40">
       <div className="shell grid grid-cols-12 gap-y-10 md:gap-x-12">
         <div className="col-span-12 md:col-span-4">
           <Reveal>
-            <p className="eyebrow mb-6">Good to know</p>
+            <p className="eyebrow mb-6">{c.faq.eyebrow}</p>
           </Reveal>
           <RevealText as="h2" className="font-display text-display-sm text-ink">
-            Questions, answered plainly.
+            {c.faq.heading}
           </RevealText>
         </div>
         <div className="col-span-12 md:col-span-7 md:col-start-6">
-          {faqs.map((f, i) => (
+          {c.faq.items.map((f, i) => (
             <Item key={f.q} q={f.q} a={f.a} i={i} />
           ))}
         </div>
