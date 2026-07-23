@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { site } from '@/lib/site';
+import { useContent } from '@/components/providers/LanguageProvider';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { scrollToId } from '@/components/providers/SmoothScroll';
 
 export function Hero() {
+  const c = useContent();
   const root = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -92,41 +94,36 @@ export function Hero() {
       </div>
 
       <div className="shell hero-copy w-full">
-        <p className="hero-fade eyebrow mb-8">
-          General Physician · {site.locality}, {site.city}
-        </p>
+        <p className="hero-fade eyebrow mb-8">{c.hero.eyebrow}</p>
 
         <h1 className="max-w-[18ch] text-[clamp(2.2rem,7.2vw,5.85rem)] leading-[0.95] tracking-[-0.02em] text-ink">
           <span className="block overflow-hidden">
-            <span className="hero-line block">Healthcare</span>
-          </span>
-          <span className="block overflow-hidden">
             <span className="hero-line block">
-              with <span className="italic text-gold">compassion.</span>
+              {c.hero.titlePre}
+              <span className="italic text-gold">{c.hero.titleEm}</span>
             </span>
           </span>
           <span className="block overflow-hidden">
-            <span className="hero-line block">Care you trust.</span>
+            <span className="hero-line block">{c.hero.titlePost}</span>
           </span>
         </h1>
 
         <div className="mt-10 flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between">
           <p className="hero-fade max-w-md text-pretty text-lg leading-relaxed text-muted">
-            A neighbourhood clinic where you are heard, unhurried and genuinely cared for —
-            for your whole family, across a lifetime of small and large moments.
+            {c.hero.sub}
           </p>
 
           <div className="hero-fade flex flex-wrap items-center gap-4">
             <MagneticButton onClick={() => scrollToId('#booking')} cursor="link">
-              Book appointment
+              {c.ui.book}
             </MagneticButton>
             <MagneticButton
               href={`tel:${site.phoneHref}`}
               variant="outline"
               cursor="link"
-              ariaLabel={`Call ${site.phoneDisplay}`}
+              ariaLabel={`${c.ui.callNow} — ${site.phoneDisplay}`}
             >
-              Call now
+              {c.ui.callNow}
             </MagneticButton>
           </div>
         </div>
@@ -137,12 +134,12 @@ export function Hero() {
         onClick={() => scrollToId('#about')}
         className="hero-scroll shell mt-14 flex items-center gap-3 text-left"
         data-cursor="link"
-        aria-label="Scroll to explore"
+        aria-label={c.ui.scrollExplore}
       >
         <span className="relative flex h-12 w-6 items-start justify-center rounded-full border border-ink/25 pt-1.5">
           <span className="h-2 w-px animate-bounce bg-ink/60" />
         </span>
-        <span className="eyebrow">Scroll to explore</span>
+        <span className="eyebrow">{c.ui.scrollExplore}</span>
       </button>
     </section>
   );

@@ -3,14 +3,11 @@
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
 import { EditorialImage } from '@/components/ui/EditorialImage';
-
-const stats = [
-  { v: '12+', l: 'Years serving Alandi' },
-  { v: '15k+', l: 'Patients cared for' },
-  { v: '4.9', l: 'Average patient rating' },
-];
+import { useContent } from '@/components/providers/LanguageProvider';
 
 export function About() {
+  const c = useContent();
+  const stats = c.about.stats;
   return (
     <section id="about" className="relative py-28 md:py-40">
       <div className="shell">
@@ -18,10 +15,10 @@ export function About() {
           {/* left rail */}
           <div className="col-span-12 md:col-span-5">
             <Reveal>
-              <p className="eyebrow mb-6">The clinic</p>
+              <p className="eyebrow mb-6">{c.about.eyebrow}</p>
             </Reveal>
             <RevealText as="h2" className="font-display text-display-sm text-ink">
-              A quieter kind of clinic, built on being genuinely listened to.
+              {c.about.heading}
             </RevealText>
           </div>
 
@@ -29,15 +26,10 @@ export function About() {
           <div className="col-span-12 flex flex-col justify-between md:col-span-6 md:col-start-7">
             <div className="max-w-lg">
               <RevealText className="text-xl leading-relaxed text-ink/80" stagger={0.05}>
-                ShriRam Clinic began with a simple conviction: that good medicine starts
-                with time and attention. In a world of five-minute appointments, we chose
-                to slow down.
+                {c.about.p1}
               </RevealText>
               <RevealText className="mt-6 text-lg leading-relaxed text-muted" stagger={0.04}>
-                We are a family practice at heart. The same doctor sees you through a
-                seasonal fever and through the long arc of managing diabetes — building the
-                kind of relationship where nothing about your health feels like a stranger&rsquo;s
-                problem to solve.
+                {c.about.p2}
               </RevealText>
             </div>
 
@@ -65,7 +57,7 @@ export function About() {
               sizes="100vw"
             />
             <figcaption className="pointer-events-none absolute bottom-5 left-5 rounded-full bg-canvas/85 px-4 py-2 text-caption uppercase tracking-wider text-ink backdrop-blur-sm">
-              ShriRam Clinic · Alandi, Pune
+              {c.about.caption}
             </figcaption>
           </figure>
         </Reveal>

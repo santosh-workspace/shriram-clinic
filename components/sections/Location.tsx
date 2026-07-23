@@ -3,10 +3,11 @@
 import { site } from '@/lib/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
-
-const landmarks = ['Near Alandi Devasthan', 'Alandi–Markal Road', 'Moshi · Dighi · Chakan nearby'];
+import { useContent } from '@/components/providers/LanguageProvider';
 
 export function Location() {
+  const c = useContent();
+  const loc = c.location;
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     `${site.name}, ${site.locality}, ${site.city}, ${site.region}`,
   )}&z=14&output=embed`;
@@ -20,10 +21,10 @@ export function Location() {
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <Reveal>
-              <p className="eyebrow mb-6">Visit us</p>
+              <p className="eyebrow mb-6">{loc.eyebrow}</p>
             </Reveal>
             <RevealText as="h2" className="max-w-[14ch] font-display text-display-sm text-ink">
-              Find us in the heart of Alandi.
+              {loc.heading}
             </RevealText>
           </div>
           <Reveal delay={0.1}>
@@ -34,7 +35,7 @@ export function Location() {
               data-cursor="link"
               className="link-underline text-sm text-ink"
             >
-              Get directions &rarr;
+              {loc.getDirections}
             </a>
           </Reveal>
         </div>
@@ -55,20 +56,18 @@ export function Location() {
           <div className="col-span-12 flex flex-col gap-8 md:col-span-4 md:col-start-9">
             <Reveal>
               <div>
-                <p className="text-caption uppercase tracking-wider text-muted">Address</p>
-                <p className="mt-2 text-lg leading-relaxed text-ink">
-                  {site.name}, {site.streetAddress}
-                  <br />
-                  {site.city}, {site.region} {site.postalCode}
+                <p className="text-caption uppercase tracking-wider text-muted">{loc.addressLabel}</p>
+                <p className="mt-2 whitespace-pre-line text-lg leading-relaxed text-ink">
+                  {loc.address}
                 </p>
               </div>
             </Reveal>
 
             <Reveal delay={0.05}>
               <div>
-                <p className="text-caption uppercase tracking-wider text-muted">Hours</p>
+                <p className="text-caption uppercase tracking-wider text-muted">{loc.hoursLabel}</p>
                 <ul className="mt-2 space-y-1.5">
-                  {site.hours.map((h) => (
+                  {loc.hours.map((h) => (
                     <li key={h.day} className="flex justify-between gap-4 text-ink">
                       <span className="text-muted">{h.day}</span>
                       <span className="text-right">{h.time}</span>
@@ -80,9 +79,9 @@ export function Location() {
 
             <Reveal delay={0.1}>
               <div>
-                <p className="text-caption uppercase tracking-wider text-muted">Nearby</p>
+                <p className="text-caption uppercase tracking-wider text-muted">{loc.nearbyLabel}</p>
                 <ul className="mt-2 space-y-1.5 text-ink">
-                  {landmarks.map((l) => (
+                  {loc.landmarks.map((l) => (
                     <li key={l}>{l}</li>
                   ))}
                 </ul>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter, Instrument_Serif } from 'next/font/google';
+import { Fraunces, Inter, Instrument_Serif, Tiro_Devanagari_Marathi, Mukta } from 'next/font/google';
 import './globals.css';
 import { site, faqs, doctors } from '@/lib/site';
 
@@ -22,6 +22,23 @@ const serif = Instrument_Serif({
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
+});
+
+// Devanagari faces — appended to the font stacks so Marathi glyphs render
+// in a proper typeface while Latin stays on Fraunces / Inter.
+const displayMr = Tiro_Devanagari_Marathi({
+  subsets: ['devanagari'],
+  variable: '--font-display-mr',
+  weight: '400',
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const sansMr = Mukta({
+  subsets: ['devanagari'],
+  variable: '--font-sans-mr',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -116,7 +133,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${serif.variable} ${sans.variable}`}
+      className={`${display.variable} ${serif.variable} ${sans.variable} ${displayMr.variable} ${sansMr.variable}`}
       suppressHydrationWarning
     >
       {/* suppressHydrationWarning on <html> and <body>: browser extensions

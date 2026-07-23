@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { journey } from '@/lib/site';
+import { useContent } from '@/components/providers/LanguageProvider';
 
 /**
  * Pinned horizontal storytelling. The section holds while five panels
@@ -11,6 +11,8 @@ import { journey } from '@/lib/site';
  * into focus. Collapses to a vertical stack under reduced-motion.
  */
 export function Journey() {
+  const c = useContent();
+  const journey = c.journey.steps;
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
 
@@ -87,16 +89,11 @@ export function Journey() {
       >
         {/* intro panel */}
         <div className="journey-panel flex h-full w-screen shrink-0 flex-col justify-center px-[8vw]">
-          <p className="j-anim eyebrow mb-6 text-canvas/50">How care unfolds</p>
-          <h2 className="j-anim max-w-[12ch] font-display text-display-md">
-            Every visit, the same five steps.
-          </h2>
-          <p className="j-anim mt-8 max-w-sm text-lg text-canvas/60">
-            Care is not a transaction. It is a sequence we walk with you — beginning to end,
-            and back again when you need us.
-          </p>
+          <p className="j-anim eyebrow mb-6 text-canvas/50">{c.journey.eyebrow}</p>
+          <h2 className="j-anim max-w-[12ch] font-display text-display-md">{c.journey.heading}</h2>
+          <p className="j-anim mt-8 max-w-sm text-lg text-canvas/60">{c.journey.sub}</p>
           <p className="j-anim mt-10 text-caption uppercase tracking-[0.2em] text-canvas/40">
-            Scroll &rarr;
+            {c.journey.scroll}
           </p>
         </div>
 
