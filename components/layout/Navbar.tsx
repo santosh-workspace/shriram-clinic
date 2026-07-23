@@ -111,13 +111,15 @@ export function Navbar() {
             >
               {site.phoneDisplay}
             </a>
-            <button
-              onClick={() => go('#booking')}
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               data-cursor="link"
               className="hidden rounded-full bg-ink px-5 py-2.5 text-sm text-canvas transition-colors duration-500 hover:bg-gold md:inline-block"
             >
               {c.ui.book}
-            </button>
+            </a>
             <button
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? c.ui.closeMenu : c.ui.openMenu}
@@ -167,12 +169,15 @@ export function Navbar() {
             ))}
           </ul>
           <div className="m-link mt-10 border-t border-line pt-6">
-            <button
-              onClick={() => go('#booking')}
-              className="w-full rounded-full bg-ink py-4 text-center text-sm font-medium text-canvas active:bg-gold"
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="block w-full rounded-full bg-ink py-4 text-center text-sm font-medium text-canvas active:bg-gold"
             >
               {c.ui.book}
-            </button>
+            </a>
             <div className="mt-6 flex flex-col gap-1">
               <a href={`tel:${site.phoneHref}`} className="text-lg text-ink">
                 {site.phoneDisplay}

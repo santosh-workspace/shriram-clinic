@@ -114,7 +114,7 @@ export function Hero() {
           </p>
 
           <div className="hero-fade flex flex-wrap items-center gap-4">
-            <MagneticButton onClick={() => scrollToId('#booking')} cursor="link">
+            <MagneticButton href={site.bookingUrl} newTab cursor="link">
               {c.ui.book}
             </MagneticButton>
             <MagneticButton

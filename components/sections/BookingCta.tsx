@@ -61,6 +61,9 @@ export function BookingCta() {
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-10 flex flex-wrap gap-4">
+              <MagneticButton href={site.bookingUrl} newTab variant="solid" cursor="link">
+                {c.ui.book}
+              </MagneticButton>
               <MagneticButton href={`tel:${site.phoneHref}`} variant="outline" cursor="link">
                 {b.callCta} {site.phoneDisplay}
               </MagneticButton>

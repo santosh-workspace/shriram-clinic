@@ -58,13 +58,15 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-            <button
-              onClick={() => scrollToId('#booking')}
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               data-cursor="link"
-              className="mt-8 rounded-full border border-canvas/30 px-6 py-3 text-sm transition-colors duration-500 hover:border-gold hover:text-gold"
+              className="mt-8 inline-block rounded-full border border-canvas/30 px-6 py-3 text-sm transition-colors duration-500 hover:border-gold hover:text-gold"
             >
               {c.ui.book}
-            </button>
+            </a>
           </div>
         </div>
 
