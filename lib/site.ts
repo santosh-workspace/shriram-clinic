@@ -16,11 +16,12 @@ export const site = {
   country: 'IN',
   postalCode: '412105',
   streetAddress: 'Alandi, Pune',
-  // TODO: replace with the clinic's verified contact details
-  phoneDisplay: '+91 98765 43210',
-  phoneHref: '+919876543210',
-  whatsapp: '919876543210',
+  phoneDisplay: '+91 87884 25916',
+  phoneHref: '+918788425916',
+  whatsapp: '918788425916',
   email: 'care@shriramclinic.in',
+  // Online appointment scheduling
+  bookingUrl: 'https://calendly.com/logicminthq',
   geo: { lat: 18.6773, lng: 73.8977 },
   hours: [
     { day: 'Mon — Sat', time: '9:00 AM – 1:30 PM · 5:00 PM – 9:30 PM' },
