@@ -38,7 +38,7 @@
   body {
     background: var(--canvas);
     color: var(--ink);
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans), var(--font-sans-mr), system-ui, sans-serif;
     font-feature-settings: 'ss01', 'cv01';
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
@@ -47,6 +47,12 @@
   ::selection {
     background: var(--gold);
     color: #fff;
+  }
+
+  /* Native cursor hidden only where the custom cursor runs */
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none;
   }
 
   :focus-visible {
@@ -59,7 +65,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display), Georgia, serif;
+    font-family: var(--font-display), var(--font-display-mr), Georgia, serif;
     font-weight: 400;
     letter-spacing: -0.015em;
   }

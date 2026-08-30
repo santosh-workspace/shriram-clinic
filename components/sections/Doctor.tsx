@@ -3,19 +3,14 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { doctors } from '@/lib/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
 import { EditorialImage } from '@/components/ui/EditorialImage';
-
-const creds = [
-  { k: 'Qualification', v: 'B.A.M.S.' },
-  { k: 'Registration', v: 'I-100789-A' },
-  { k: 'Focus', v: 'Family & general medicine' },
-  { k: 'Languages', v: 'Hindi · English' },
-];
+import { useContent } from '@/components/providers/LanguageProvider';
 
 export function Doctor() {
+  const t = useContent();
+  const d = t.doctor;
   const sig = useRef<SVGPathElement>(null);
 
   useEffect(() => {
@@ -45,7 +40,7 @@ export function Doctor() {
             <div className="aspect-[4/5] overflow-hidden rounded-sm">
               <EditorialImage
                 tone="c"
-                alt={`${doctors[0].name}, ${doctors[0].role}`}
+                alt={`${d.name}, ${d.role}`}
                 label="Doctor portrait — /images/doctor.png"
                 src="/images/doctor.png"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -56,28 +51,27 @@ export function Doctor() {
 
         <div className="col-span-12 flex flex-col justify-center md:col-span-5 md:col-start-8">
           <Reveal>
-            <p className="eyebrow mb-6">Meet your doctor</p>
+            <p className="eyebrow mb-6">{d.eyebrow}</p>
           </Reveal>
           <RevealText as="h2" className="font-display text-display-sm text-ink">
-            {doctors[0].name}
+            {d.name}
           </RevealText>
           <Reveal delay={0.1}>
             <p className="mt-3 text-muted">
-              {doctors[0].creds} · {doctors[0].role}
+              {d.creds[0].v} · {d.role}
             </p>
           </Reveal>
 
           <RevealText className="mt-8 text-lg leading-relaxed text-ink/80" stagger={0.04}>
-            &ldquo;Medicine taught me the science. My patients taught me the rest — that
-            being unwell is frightening, and that the first treatment is to be truly heard.&rdquo;
+            {d.quote}
           </RevealText>
 
           <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-8">
-            {creds.map((c, i) => (
-              <Reveal key={c.k} delay={i * 0.06}>
+            {d.creds.map((item, i) => (
+              <Reveal key={item.k} delay={i * 0.06}>
                 <div>
-                  <p className="text-caption uppercase tracking-wider text-muted">{c.k}</p>
-                  <p className="mt-1.5 text-ink">{c.v}</p>
+                  <p className="text-caption uppercase tracking-wider text-muted">{item.k}</p>
+                  <p className="mt-1.5 text-ink">{item.v}</p>
                 </div>
               </Reveal>
             ))}
@@ -100,7 +94,7 @@ export function Doctor() {
             />
           </svg>
           <p className="mt-2 text-caption uppercase tracking-wider text-muted">
-            Alongside {doctors[1].name}, {doctors[1].creds}
+            {d.alongside}
           </p>
         </div>
       </div>

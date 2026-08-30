@@ -5,19 +5,23 @@ import { site } from '@/lib/site';
 import { Reveal } from '@/components/ui/Reveal';
 import { RevealText } from '@/components/ui/RevealText';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useContent } from '@/components/providers/LanguageProvider';
 
 type Errors = Partial<Record<'name' | 'phone' | 'reason', string>>;
 
 export function BookingCta() {
+  const c = useContent();
+  const b = c.booking;
+  const f = b.form;
   const [form, setForm] = useState({ name: '', phone: '', reason: '', when: '' });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
 
   const validate = () => {
     const e: Errors = {};
-    if (form.name.trim().length < 2) e.name = 'Please enter your name.';
-    if (!/^[0-9+\s-]{8,}$/.test(form.phone.trim())) e.phone = 'Enter a valid phone number.';
-    if (form.reason.trim().length < 3) e.reason = 'Tell us briefly what it’s about.';
+    if (form.name.trim().length < 2) e.name = f.errName;
+    if (!/^[0-9+\s-]{8,}$/.test(form.phone.trim())) e.phone = f.errPhone;
+    if (form.reason.trim().length < 3) e.reason = f.errReason;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -25,7 +29,7 @@ export function BookingCta() {
   const submit = (ev: React.FormEvent) => {
     ev.preventDefault();
     if (!validate()) return;
-    const msg = `Hello ${site.name}, I'd like to book an appointment.%0A%0AName: ${form.name}%0APhone: ${form.phone}%0APreferred time: ${form.when || 'Any'}%0AReason: ${form.reason}`;
+    const msg = `${b.waGreeting}%0A%0A${form.name}%0A${form.phone}%0A${form.when || '—'}%0A${form.reason}`;
     setSent(true);
     // hand the request to WhatsApp — the fastest real booking path
     setTimeout(() => {
@@ -42,33 +46,29 @@ export function BookingCta() {
         {/* left: the invitation */}
         <div className="col-span-12 md:col-span-6">
           <Reveal>
-            <p className="eyebrow mb-8">Book an appointment</p>
+            <p className="eyebrow mb-8">{b.eyebrow}</p>
           </Reveal>
           <h2 className="font-display text-display-md text-ink">
             <span className="block overflow-hidden">
               <RevealText as="span" className="block">
-                Your health deserves
+                {b.headingPre}
               </RevealText>
             </span>
-            <span className="italic text-gold">thoughtful care.</span>
+            <span className="italic text-gold">{b.headingEm}</span>
           </h2>
           <Reveal delay={0.1}>
-            <p className="mt-8 max-w-md text-lg leading-relaxed text-muted">
-              Leave your details and we&rsquo;ll confirm your slot on WhatsApp — usually within the
-              hour during clinic times. Prefer to talk? Call us directly.
-            </p>
+            <p className="mt-8 max-w-md text-lg leading-relaxed text-muted">{b.sub}</p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={`tel:${site.phoneHref}`} variant="outline" cursor="link">
-                Call {site.phoneDisplay}
+              <MagneticButton href={site.bookingUrl} newTab variant="solid" cursor="link">
+                {c.ui.book}
               </MagneticButton>
-              <MagneticButton
-                href={`https://wa.me/${site.whatsapp}`}
-                variant="ghost"
-                cursor="link"
-              >
-                WhatsApp us
+              <MagneticButton href={`tel:${site.phoneHref}`} variant="outline" cursor="link">
+                {b.callCta} {site.phoneDisplay}
+              </MagneticButton>
+              <MagneticButton href={`https://wa.me/${site.whatsapp}`} variant="ghost" cursor="link">
+                {b.whatsappCta}
               </MagneticButton>
             </div>
           </Reveal>
@@ -85,45 +85,42 @@ export function BookingCta() {
                       <path d="M20 6 9 17l-5-5" strokeDasharray="30" className="[animation:check_.9s_var(--ease-editorial)_forwards]" style={{ strokeDashoffset: 30, animationName: 'check' }} />
                     </svg>
                   </span>
-                  <h3 className="mt-6 font-display text-2xl text-ink">Request on its way</h3>
-                  <p className="mt-2 max-w-xs text-muted">
-                    We&rsquo;re opening WhatsApp so you can send your request. We&rsquo;ll confirm
-                    shortly.
-                  </p>
+                  <h3 className="mt-6 font-display text-2xl text-ink">{f.sentTitle}</h3>
+                  <p className="mt-2 max-w-xs text-muted">{f.sentBody}</p>
                   <button
                     onClick={() => setSent(false)}
                     className="link-underline mt-6 text-sm text-ink"
                     data-cursor="link"
                   >
-                    Book another
+                    {f.bookAnother}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={submit} noValidate className="space-y-6">
                   <div>
                     <label htmlFor="name" className="text-caption uppercase tracking-wider text-muted">
-                      Full name
+                      {f.name}
                     </label>
                     <input
                       id="name"
                       className={field}
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Your name"
+                      placeholder={f.namePh}
                       autoComplete="name"
                     />
                     {errors.name && <p className="mt-1.5 text-xs text-red-700">{errors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-caption uppercase tracking-wider text-muted">
-                      Phone
+                      {f.phone}
                     </label>
                     <input
                       id="phone"
                       className={field}
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder="+91 …"
+                      placeholder={f.phonePh}
                       inputMode="tel"
                       autoComplete="tel"
                     />
@@ -131,26 +128,26 @@ export function BookingCta() {
                   </div>
                   <div>
                     <label htmlFor="when" className="text-caption uppercase tracking-wider text-muted">
-                      Preferred time <span className="normal-case text-muted/60">(optional)</span>
+                      {f.when} <span className="normal-case text-muted/60">{f.whenOpt}</span>
                     </label>
                     <input
                       id="when"
                       className={field}
                       value={form.when}
                       onChange={(e) => setForm({ ...form, when: e.target.value })}
-                      placeholder="e.g. Tomorrow evening"
+                      placeholder={f.whenPh}
                     />
                   </div>
                   <div>
                     <label htmlFor="reason" className="text-caption uppercase tracking-wider text-muted">
-                      Reason for visit
+                      {f.reason}
                     </label>
                     <input
                       id="reason"
                       className={field}
                       value={form.reason}
                       onChange={(e) => setForm({ ...form, reason: e.target.value })}
-                      placeholder="Briefly, what’s it about?"
+                      placeholder={f.reasonPh}
                     />
                     {errors.reason && <p className="mt-1.5 text-xs text-red-700">{errors.reason}</p>}
                   </div>
@@ -160,11 +157,9 @@ export function BookingCta() {
                     data-cursor="link"
                     className="mt-2 w-full rounded-full bg-ink py-4 text-sm font-medium text-canvas transition-colors duration-500 ease-editorial hover:bg-gold"
                   >
-                    Request appointment
+                    {f.submit}
                   </button>
-                  <p className="text-center text-xs text-muted">
-                    We reply on WhatsApp. Your details are never shared.
-                  </p>
+                  <p className="text-center text-xs text-muted">{f.note}</p>
                 </form>
               )}
             </div>

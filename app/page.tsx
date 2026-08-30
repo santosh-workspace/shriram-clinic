@@ -1,5 +1,8 @@
+import { LanguageProvider } from '@/components/providers/LanguageProvider';
+import { LangBoundary } from '@/components/providers/LangBoundary';
 import { SmoothScroll } from '@/components/providers/SmoothScroll';
 import { Preloader } from '@/components/ui/Preloader';
+import { CustomCursor } from '@/components/ui/CustomCursor';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { FloatingActions } from '@/components/ui/FloatingActions';
 import { Navbar } from '@/components/layout/Navbar';
@@ -16,25 +19,30 @@ import { BookingCta } from '@/components/sections/BookingCta';
 
 export default function Home() {
   return (
-    <SmoothScroll>
-      <Preloader />
+    <LanguageProvider>
+      <SmoothScroll>
+        <Preloader />
+      <CustomCursor />
       <ScrollProgress />
       <FloatingActions />
       <div className="grain-overlay animate-grain" aria-hidden="true" />
 
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Journey />
-        <Doctor />
-        <Testimonials />
-        <Faq />
-        <Location />
-        <BookingCta />
-      </main>
-      <Footer />
-    </SmoothScroll>
+        <LangBoundary>
+          <Navbar />
+          <main>
+            <Hero />
+            <About />
+            <Services />
+            <Journey />
+            <Doctor />
+            <Testimonials />
+            <Faq />
+            <Location />
+            <BookingCta />
+          </main>
+          <Footer />
+        </LangBoundary>
+      </SmoothScroll>
+    </LanguageProvider>
   );
 }

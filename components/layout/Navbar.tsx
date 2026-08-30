@@ -2,11 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { nav, site } from '@/lib/site';
+import { site } from '@/lib/site';
+import { useContent } from '@/components/providers/LanguageProvider';
 import { Logo } from '@/components/ui/Logo';
+import { LangToggle } from '@/components/ui/LangToggle';
 import { scrollToId } from '@/components/providers/SmoothScroll';
 
 export function Navbar() {
+  const c = useContent();
+  const nav = c.nav;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>('');
@@ -78,7 +82,7 @@ export function Navbar() {
         }`}
       >
         <nav className="shell flex items-center justify-between">
-          <button onClick={() => go('#top')} data-cursor="link" aria-label="ShriRam Clinic — home">
+          <button onClick={() => go('#top')} data-cursor="link" aria-label={c.ui.home}>
             <Logo tone="ink" />
           </button>
 
@@ -98,24 +102,27 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
+            <LangToggle />
             <a
               href={`tel:${site.phoneHref}`}
               data-cursor="link"
-              className="hidden text-sm text-ink/70 transition-colors hover:text-ink sm:block"
+              className="hidden text-sm text-ink/70 transition-colors hover:text-ink lg:block"
             >
               {site.phoneDisplay}
             </a>
-            <button
-              onClick={() => go('#booking')}
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               data-cursor="link"
               className="hidden rounded-full bg-ink px-5 py-2.5 text-sm text-canvas transition-colors duration-500 hover:bg-gold md:inline-block"
             >
-              Book appointment
-            </button>
+              {c.ui.book}
+            </a>
             <button
               onClick={() => setOpen((v) => !v)}
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-label={open ? c.ui.closeMenu : c.ui.openMenu}
               aria-expanded={open}
               data-cursor="link"
               className="relative z-[130] flex h-11 w-11 items-center justify-center lg:hidden"
@@ -162,12 +169,15 @@ export function Navbar() {
             ))}
           </ul>
           <div className="m-link mt-10 border-t border-line pt-6">
-            <button
-              onClick={() => go('#booking')}
-              className="w-full rounded-full bg-ink py-4 text-center text-sm font-medium text-canvas active:bg-gold"
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="block w-full rounded-full bg-ink py-4 text-center text-sm font-medium text-canvas active:bg-gold"
             >
-              Book appointment
-            </button>
+              {c.ui.book}
+            </a>
             <div className="mt-6 flex flex-col gap-1">
               <a href={`tel:${site.phoneHref}`} className="text-lg text-ink">
                 {site.phoneDisplay}
@@ -181,6 +191,9 @@ export function Navbar() {
                 WhatsApp
               </a>
               <span className="text-sm text-muted">{site.email}</span>
+            </div>
+            <div className="m-link mt-6">
+              <LangToggle />
             </div>
           </div>
         </div>

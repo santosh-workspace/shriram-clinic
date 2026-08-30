@@ -17,9 +17,9 @@ const config: Config = {
         line: 'rgba(0,0,0,0.08)', // hairline borders
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'var(--font-display-mr)', 'Georgia', 'serif'],
+        serif: ['var(--font-serif)', 'var(--font-display-mr)', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'var(--font-sans-mr)', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         eyebrow: '0.28em',

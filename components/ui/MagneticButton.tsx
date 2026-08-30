@@ -12,6 +12,7 @@ type Props = {
   strength?: number;
   cursor?: string;
   ariaLabel?: string;
+  newTab?: boolean;
 };
 
 /**
@@ -27,6 +28,7 @@ export function MagneticButton({
   strength = 0.35,
   cursor,
   ariaLabel,
+  newTab = false,
 }: Props) {
   const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
   const label = useRef<HTMLSpanElement>(null);
@@ -75,7 +77,11 @@ export function MagneticButton({
 
   if (href) {
     return (
-      <a href={href} {...shared}>
+      <a
+        href={href}
+        {...shared}
+        {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
         {inner}
       </a>
     );
