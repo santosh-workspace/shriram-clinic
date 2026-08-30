@@ -61,7 +61,12 @@ export function BookingCta() {
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <MagneticButton href={site.bookingUrl} newTab variant="solid" cursor="link">
+              <MagneticButton
+                href={`https://wa.me/${site.whatsapp}?text=${b.waGreeting}`}
+                newTab
+                variant="solid"
+                cursor="link"
+              >
                 {c.ui.book}
               </MagneticButton>
               <MagneticButton href={`tel:${site.phoneHref}`} variant="outline" cursor="link">

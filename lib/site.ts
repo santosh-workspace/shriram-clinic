@@ -20,8 +20,8 @@ export const site = {
   phoneHref: '+918788425916',
   whatsapp: '918788425916',
   email: 'care@shriramclinic.in',
-  // Online appointment scheduling
-  bookingUrl: 'https://calendly.com/logicminthq',
+  // Online appointment scheduling — opens WhatsApp chat instead of Calendly
+  bookingUrl: 'https://wa.me/918788425916?text=Hello%20ShriRam%20Clinic%2C%20I%27d%20like%20to%20book%20an%20appointment.',
   geo: { lat: 18.6773, lng: 73.8977 },
   hours: [
     { day: 'Mon — Sat', time: '9:00 AM – 1:30 PM · 5:00 PM – 9:30 PM' },
