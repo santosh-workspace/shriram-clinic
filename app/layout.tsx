@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter, Instrument_Serif, Tiro_Devanagari_Marathi, Mukta } from 'next/font/google';
 import './globals.css';
-import { site, faqs, doctors } from '@/lib/site';
+import { site, faqs, doctors, reviews, services } from '@/lib/site';
 
 const display = Fraunces({
   subsets: ['latin'],
@@ -46,6 +46,7 @@ export const viewport: Viewport = {
   themeColor: '#F8F7F4',
   width: 'device-width',
   initialScale: 1,
+  colorScheme: 'light',
 };
 
 export const metadata: Metadata = {
@@ -55,14 +56,41 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  manifest: '/manifest.webmanifest',
+  category: 'healthcare',
+  authors: [{ name: 'Dr. Vikas Bade', url: site.url }],
+  creator: site.name,
   keywords: [
     'General Physician in Alandi',
+    'General Physician in Pune',
     'clinic in Alandi Pune',
     'family doctor Alandi',
-    'diabetes hypertension care Pune',
+    'family physician near me',
+    'best doctor in Alandi Pune',
+    'diabetes management Alandi',
+    'hypertension care Pune',
+    'child and family medicine Alandi',
+    'vaccination clinic Alandi',
     'ShriRam Clinic',
+    'Dr. Vikas Bade',
   ],
-  alternates: { canonical: '/' },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-IN': '/',
+      mr: '/',
+    },
+  },
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/images/logo.png', sizes: '523x418' }],
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -70,13 +98,30 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — Healthcare with compassion`,
     description: site.description,
+    images: [
+      {
+        url: '/images/hero.jpg',
+        width: 1200,
+        height: 800,
+        alt: `${site.name} — Alandi, Pune`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${site.name} — General Physician in ${site.locality}`,
     description: site.description,
+    images: ['/images/hero.jpg'],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
+  // Optional: uncomment once you have verified the site in Google Search Console.
+  // verification: {
+  //   google: 'YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE',
+  // },
 };
 
 const schema = {
@@ -93,6 +138,10 @@ const schema = {
       medicalSpecialty: 'GeneralPractice',
       priceRange: '₹₹',
       image: `${site.url}/images/doctor.png`,
+      logo: `${site.url}/images/logo.png`,
+      currenciesAccepted: 'INR',
+      paymentAccepted: 'Cash, UPI, Credit Card',
+      availableLanguage: ['English', 'Marathi', 'Hindi'],
       address: {
         '@type': 'PostalAddress',
         streetAddress: site.streetAddress,
@@ -112,11 +161,40 @@ const schema = {
         },
         { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '09:00', closes: '12:30' },
       ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: reviews.rating,
+        reviewCount: reviews.count.replace(/\D/g, ''),
+      },
+      sameAs: [site.social.instagram, site.social.facebook].filter((u) => u && u !== '#'),
       employee: doctors.map((d) => ({
         '@type': 'Physician',
         name: d.name,
         medicalSpecialty: 'GeneralPractice',
       })),
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Medical services',
+        itemListElement: services.map((s, i) => ({
+          '@type': 'Offer',
+          position: i + 1,
+          itemOffered: { '@type': 'Service', name: s.title, description: s.body },
+        })),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}#website`,
+      url: site.url,
+      name: site.name,
+      description: site.description,
+      inLanguage: ['en-IN', 'mr'],
+      publisher: { '@id': `${site.url}#clinic` },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${site.url}/?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
     },
     {
       '@type': 'FAQPage',
@@ -125,6 +203,10 @@ const schema = {
         name: f.q,
         acceptedAnswer: { '@type': 'Answer', text: f.a },
       })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url }],
     },
   ],
 };
