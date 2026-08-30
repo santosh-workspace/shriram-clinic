@@ -2,7 +2,6 @@ import { LanguageProvider } from '@/components/providers/LanguageProvider';
 import { LangBoundary } from '@/components/providers/LangBoundary';
 import { SmoothScroll } from '@/components/providers/SmoothScroll';
 import { Preloader } from '@/components/ui/Preloader';
-import { CustomCursor } from '@/components/ui/CustomCursor';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { FloatingActions } from '@/components/ui/FloatingActions';
 import { Navbar } from '@/components/layout/Navbar';
@@ -22,7 +21,6 @@ export default function Home() {
     <LanguageProvider>
       <SmoothScroll>
         <Preloader />
-      <CustomCursor />
       <ScrollProgress />
       <FloatingActions />
       <div className="grain-overlay animate-grain" aria-hidden="true" />
