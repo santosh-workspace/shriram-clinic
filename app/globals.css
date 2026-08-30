@@ -49,12 +49,6 @@
     color: #fff;
   }
 
-  /* Native cursor hidden only where the custom cursor runs */
-  body.has-custom-cursor,
-  body.has-custom-cursor * {
-    cursor: none;
-  }
-
   :focus-visible {
     outline: 2px solid var(--gold);
     outline-offset: 3px;

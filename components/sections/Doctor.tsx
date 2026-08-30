@@ -12,7 +12,7 @@ const creds = [
   { k: 'Qualification', v: 'B.A.M.S.' },
   { k: 'Registration', v: 'I-100789-A' },
   { k: 'Focus', v: 'Family & general medicine' },
-  { k: 'Languages', v: 'Marathi · Hindi · English' },
+  { k: 'Languages', v: 'Hindi · English' },
 ];
 
 export function Doctor() {
