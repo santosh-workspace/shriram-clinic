@@ -1,44 +1,35 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter, Instrument_Serif, Tiro_Devanagari_Marathi, Mukta } from 'next/font/google';
+import { Fraunces, Inter, Tiro_Devanagari_Marathi, Mukta } from 'next/font/google';
 import './globals.css';
 import { site, faqs, doctors, reviews, services } from '@/lib/site';
 
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['400'],
-  style: ['normal'],
-  display: 'swap',
-});
-
-const serif = Instrument_Serif({
-  subsets: ['latin'],
-  variable: '--font-serif',
   weight: '400',
-  style: ['normal'],
+  style: 'normal',
   display: 'swap',
 });
 
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: '400',
   display: 'swap',
 });
 
-// Devanagari faces — appended to the font stacks so Marathi glyphs render
-// in a proper typeface while Latin stays on Fraunces / Inter.
 const displayMr = Tiro_Devanagari_Marathi({
   subsets: ['devanagari'],
   variable: '--font-display-mr',
   weight: '400',
-  style: ['normal'],
+  style: 'normal',
   display: 'swap',
 });
 
 const sansMr = Mukta({
   subsets: ['devanagari'],
   variable: '--font-sans-mr',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500'],
   display: 'swap',
 });
 
@@ -136,7 +127,7 @@ const schema = {
       email: site.email,
       medicalSpecialty: 'GeneralPractice',
       priceRange: '₹₹',
-      image: `${site.url}/images/doctor.png`,
+      image: `${site.url}/images/doctor.webp`,
       logo: `${site.url}/images/logo.webp`,
       currenciesAccepted: 'INR',
       paymentAccepted: 'Cash, UPI, Credit Card',
@@ -214,13 +205,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${serif.variable} ${sans.variable} ${displayMr.variable} ${sansMr.variable}`}
+      className={`${display.variable} ${sans.variable} ${displayMr.variable} ${sansMr.variable}`}
       suppressHydrationWarning
     >
-      {/* suppressHydrationWarning on <html> and <body>: browser extensions
-          (Grammarly, QuillBot, etc.) inject attributes onto these elements
-          before hydration. This ignores only those one-level attribute diffs,
-          never genuine mismatches deeper in the tree. */}
       <body suppressHydrationWarning>
         <script
           type="application/ld+json"
