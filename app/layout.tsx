@@ -6,8 +6,8 @@ import { site, faqs, doctors, reviews, services } from '@/lib/site';
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['300', '400', '500'],
-  style: ['normal', 'italic'],
+  weight: ['400'],
+  style: ['normal'],
   display: 'swap',
 });
 
@@ -15,7 +15,7 @@ const serif = Instrument_Serif({
   subsets: ['latin'],
   variable: '--font-serif',
   weight: '400',
-  style: ['normal', 'italic'],
+  style: ['normal'],
   display: 'swap',
 });
 
@@ -31,7 +31,7 @@ const displayMr = Tiro_Devanagari_Marathi({
   subsets: ['devanagari'],
   variable: '--font-display-mr',
   weight: '400',
-  style: ['normal', 'italic'],
+  style: ['normal'],
   display: 'swap',
 });
 
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/images/logo.png', sizes: '523x418' }],
+    apple: [{ url: '/images/logo.webp', sizes: '523x418' }],
   },
   formatDetection: {
     email: false,
@@ -118,10 +118,9 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
-  // Optional: uncomment once you have verified the site in Google Search Console.
-  // verification: {
-  //   google: 'YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE',
-  // },
+  verification: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION }
+    : undefined,
 };
 
 const schema = {
@@ -138,7 +137,7 @@ const schema = {
       medicalSpecialty: 'GeneralPractice',
       priceRange: '₹₹',
       image: `${site.url}/images/doctor.png`,
-      logo: `${site.url}/images/logo.png`,
+      logo: `${site.url}/images/logo.webp`,
       currenciesAccepted: 'INR',
       paymentAccepted: 'Cash, UPI, Credit Card',
       availableLanguage: ['English', 'Marathi', 'Hindi'],

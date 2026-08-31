@@ -44,7 +44,7 @@ export function Logo({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={imgRef}
-          src="/images/logo.png"
+          src="/images/logo.webp"
           alt="ShriRam Clinic"
           width={523}
           height={418}

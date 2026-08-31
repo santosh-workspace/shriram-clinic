@@ -3,7 +3,6 @@
 import { useEffect, useRef, ElementType } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
 
 /**
  * Line-by-line editorial reveal. Each line rises from behind a mask.
@@ -33,38 +32,37 @@ export function RevealText({
     }
 
     gsap.registerPlugin(ScrollTrigger);
-    const split = new SplitType(el, { types: 'lines', lineClass: 'reveal-line' });
 
-    // wrap each line so we can clip it
-    const lines = el.querySelectorAll<HTMLElement>('.reveal-line');
-    lines.forEach((line) => {
-      const wrap = document.createElement('span');
-      wrap.style.display = 'block';
-      wrap.style.overflow = 'hidden';
-      line.parentNode?.insertBefore(wrap, line);
-      wrap.appendChild(line);
+    // Lazy-load split-type only when needed
+    import('split-type').then(({ default: SplitType }) => {
+      if (!ref.current) return;
+      const split = new SplitType(el, { types: 'lines', lineClass: 'reveal-line' });
+
+      // wrap each line so we can clip it
+      const lines = el.querySelectorAll<HTMLElement>('.reveal-line');
+      lines.forEach((line) => {
+        const wrap = document.createElement('span');
+        wrap.style.display = 'block';
+        wrap.style.overflow = 'hidden';
+        line.parentNode?.insertBefore(wrap, line);
+        wrap.appendChild(line);
+      });
+
+      el.style.opacity = '1';
+
+      gsap.from(el.querySelectorAll('.reveal-line'), {
+        yPercent: 115,
+        duration: 1.1,
+        ease: 'power4.out',
+        stagger,
+        delay,
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+        },
+      });
     });
-
-    el.style.opacity = '1';
-
-    const tween = gsap.from(el.querySelectorAll('.reveal-line'), {
-      yPercent: 115,
-      duration: 1.1,
-      ease: 'power4.out',
-      stagger,
-      delay,
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-        once: true,
-      },
-    });
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-      split.revert();
-    };
   }, [stagger, delay]);
 
   // polymorphic tag — a loose cast avoids the intrinsic-element ref union

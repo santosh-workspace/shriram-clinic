@@ -85,6 +85,7 @@ export function Hero() {
           alt="A doctor in an unhurried consultation with a patient at ShriRam Clinic"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover object-center"
         />
